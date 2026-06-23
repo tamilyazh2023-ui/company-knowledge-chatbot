@@ -1,13 +1,5 @@
-venv/
 .env
-
-__pycache__/
-*.pyc
-
-uploads/
+venv/
+chat.db
 chroma_db/
-
-.vscode/
-
-*.sqlite3
-*.db
+__pycache__/ccc
