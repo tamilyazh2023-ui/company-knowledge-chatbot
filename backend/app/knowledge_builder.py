@@ -1,6 +1,9 @@
 import os
 
 from app.crawlers.pdf_reader import extract_pdf_text
+from app.chunking import create_chunks
+from app.embeddings import create_embeddings
+from app.vector_store import store_embeddings
 
 
 def build_knowledge_base():
@@ -27,7 +30,6 @@ COMPANY WEBSITE
 
 {website_text}
 
-
 =========================
 COMPANY PDF
 =========================
@@ -38,5 +40,16 @@ COMPANY PDF
     with open(output_file, "w", encoding="utf-8") as file:
         file.write(final_text)
 
-    print(f"\nKnowledge Base Created Successfully!\n")
-    print(f"Saved to: {output_file}")
+    print("\nKnowledge Base Created Successfully!")
+
+    chunks = create_chunks(final_text)
+
+    embeddings = create_embeddings(chunks)
+
+    store_embeddings(chunks, embeddings)
+
+    print("\nKnowledge Stored Successfully in ChromaDB!")
+
+
+if __name__ == "__main__":
+    build_knowledge_base()

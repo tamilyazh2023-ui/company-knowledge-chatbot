@@ -33,6 +33,8 @@ def chat(
         request.message
     )
 
+    print("CONTEXT:", context)
+
     # Generate answer using Phi3 + company context
     reply = generate_answer(
         request.message,
