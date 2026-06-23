@@ -1,5 +1,5 @@
-.env
 venv/
-chat.db
+__pycache__/
 chroma_db/
-__pycache__/ccc
+chat.db
+.env
