@@ -1,0 +1,13 @@
+venv/
+.env
+
+__pycache__/
+*.pyc
+
+uploads/
+chroma_db/
+
+.vscode/
+
+*.sqlite3
+*.db
