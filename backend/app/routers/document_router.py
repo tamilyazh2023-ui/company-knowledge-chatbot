@@ -6,7 +6,6 @@ from app.schemas.document import (
 )
 
 from app.services.website_service import extract_website_text
-from app.services.gemini_service import generate_reply
 
 router = APIRouter(
     prefix="/document",

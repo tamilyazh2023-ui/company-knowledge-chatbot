@@ -8,7 +8,8 @@ from app.schemas.chat import (
     ChatHistoryResponse
 )
 
-from app.services.gemini_service import generate_reply
+from app.retriever import search_company_knowledge
+from app.ai_service import generate_answer
 
 from app.utils.security import get_current_user
 from app.services.chat_service import save_chat, get_chat_history
@@ -27,8 +28,18 @@ def chat(
     current_user=Depends(get_current_user)
 ):
 
-    reply = generate_reply(request.message)
+    # Retrieve relevant company knowledge
+    context = search_company_knowledge(
+        request.message
+    )
 
+    # Generate answer using Phi3 + company context
+    reply = generate_answer(
+        request.message,
+        "\n".join(context)
+    )
+
+    # Save chat history
     save_chat(
         db,
         current_user["id"],
@@ -50,4 +61,3 @@ def history(
         db,
         current_user["id"]
     )
-
