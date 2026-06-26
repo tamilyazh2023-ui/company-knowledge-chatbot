@@ -11,9 +11,8 @@ collection = client.get_or_create_collection("company_knowledge")
 
 
 def search_company_knowledge(question, top_k=5):
-    """
-    Search the vector database for the most relevant chunks.
-    """
+
+    print("\nCollection Count:", collection.count())
 
     question_embedding = embedding_model.encode(question)
 
@@ -22,4 +21,8 @@ def search_company_knowledge(question, top_k=5):
         n_results=top_k
     )
 
+    print("\nRetriever Results:")
+    print(results)
+
     return results["documents"][0]
+

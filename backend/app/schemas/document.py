@@ -1,9 +1,8 @@
 from pydantic import BaseModel, HttpUrl
 
 
-class WebsiteChatRequest(BaseModel):
+class WebsiteRequest(BaseModel):
     url: HttpUrl
-    question: str
 
 
 class WebsiteChatResponse(BaseModel):

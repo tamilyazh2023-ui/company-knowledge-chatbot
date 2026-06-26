@@ -1,6 +1,5 @@
+import uuid
 import chromadb
-
-from chromadb.config import Settings
 
 client = chromadb.PersistentClient(
     path="chroma_db"
@@ -16,10 +15,7 @@ def store_embeddings(chunks, embeddings):
     Store chunks and embeddings into ChromaDB.
     """
 
-    ids = []
-
-    for i in range(len(chunks)):
-        ids.append(str(i))
+    ids = [str(uuid.uuid4()) for _ in chunks]
 
     collection.add(
         ids=ids,

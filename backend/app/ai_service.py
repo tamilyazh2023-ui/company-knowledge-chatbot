@@ -1,5 +1,9 @@
 import ollama
+def generate_answer(question, context):
 
+    if not context or str(context).strip() == "":
+        return "I don't have information about that in the uploaded company documents."
+        
 def generate_answer(question, context):
     """
     Generate an answer using Phi-3 Mini based only on the provided context.

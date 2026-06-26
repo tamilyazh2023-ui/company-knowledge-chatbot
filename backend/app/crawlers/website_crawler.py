@@ -8,7 +8,7 @@ from app.crawlers.link_filter import (
 
 import requests
 
-from app.utils import save_company_data
+from app.utils.file_utils import save_company_data
 
 def fetch_page(url):
     try:
