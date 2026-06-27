@@ -1,44 +1,39 @@
-import requests
-from bs4 import BeautifulSoup
+from sqlalchemy.orm import Session
+
+from app.models.website import Website
 
 
-def extract_website_text(url: str) -> str:
-    """
-    Downloads a webpage and extracts its visible text.
-    """
+def save_website(db: Session, url: str):
+    website = Website(
+        url=url
+    )
 
-    headers = {
-        "User-Agent": (
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-            "AppleWebKit/537.36 (KHTML, like Gecko) "
-            "Chrome/137.0 Safari/537.36"
-        )
-    }
+    db.add(website)
+    db.commit()
+    db.refresh(website)
 
-    try:
-        response = requests.get(
-            url,
-            headers=headers,
-            timeout=10
-        )
+    return website
 
-        response.raise_for_status()
 
-        soup = BeautifulSoup(response.text, "html.parser")
+def get_all_websites(db: Session):
+    return (
+        db.query(Website)
+        .order_by(Website.crawled_at.desc())
+        .all()
+    )
 
-        # Remove unwanted HTML tags
-        for tag in soup(["script", "style", "noscript"]):
-            tag.decompose()
 
-        text = soup.get_text(separator=" ", strip=True)
+def delete_website(db: Session, website_id: int):
+    website = (
+        db.query(Website)
+        .filter(Website.id == website_id)
+        .first()
+    )
 
-        if not text:
-            return "No readable text found on the website."
+    if not website:
+        return False
 
-        return text[:12000]
+    db.delete(website)
+    db.commit()
 
-    except requests.exceptions.RequestException as e:
-        return f"Website Error: {e}"
-
-    except Exception as e:
-        return f"Error: {e}"
+    return True

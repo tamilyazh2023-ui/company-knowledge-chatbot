@@ -55,19 +55,10 @@ def get_current_user(
 
         print("Payload:", payload)
 
-        email = payload.get("sub")
-
-        if email is None:
-            raise HTTPException(
-                status_code=401,
-                detail="Invalid Token"
-            )
-
         return payload
 
     except JWTError as e:
         print("JWT Error:", e)
-
         raise HTTPException(
             status_code=401,
             detail="Invalid Token"

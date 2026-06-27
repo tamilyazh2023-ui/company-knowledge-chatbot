@@ -5,11 +5,15 @@ from app.database import Base, engine
 
 from app.models.user import User
 from app.models.chat import ChatMessage
+from app.models.document import Document
 
 from app.routers.user_router import router as user_router
 from app.routers.chat_router import router as chat_router
 from app.routers.ai_router import router as ai_router
 from app.routers.document_router import router as document_router
+from app.routers.dashboard_router import router as dashboard_router
+from app.routers.analytics_router import router as analytics_router
+from app.routers.activity_router import router as activity_router
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
@@ -39,6 +43,9 @@ app.include_router(user_router)
 app.include_router(chat_router)
 app.include_router(ai_router)
 app.include_router(document_router)
+app.include_router(dashboard_router)
+app.include_router(analytics_router)
+app.include_router(activity_router)
 
 # -------------------- Home --------------------
 

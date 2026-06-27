@@ -25,3 +25,26 @@ def get_chat_history(db: Session, user_id: int):
     )
 
     return chats
+
+def get_all_chats(db: Session):
+    return (
+        db.query(ChatMessage)
+        .order_by(ChatMessage.created_at.desc())
+        .all()
+    )
+
+
+def delete_chat(db: Session, chat_id: int):
+    chat = (
+        db.query(ChatMessage)
+        .filter(ChatMessage.id == chat_id)
+        .first()
+    )
+
+    if chat is None:
+        return False
+
+    db.delete(chat)
+    db.commit()
+
+    return True

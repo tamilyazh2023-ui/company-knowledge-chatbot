@@ -1,39 +1,40 @@
 import ollama
-def generate_answer(question, context):
 
+
+def generate_answer(question, context):
+    """
+    Generate an answer using Phi-3 Mini based only on the retrieved context.
+    """
+
+    # No context found
     if not context or str(context).strip() == "":
         return "I don't have information about that in the uploaded company documents."
-        
-def generate_answer(question, context):
-    """
-    Generate an answer using Phi-3 Mini based only on the provided context.
-    """
 
     prompt = f"""
-You are a company assistant.
+You are an AI assistant for a Company Knowledge Chatbot.
 
-Answer ONLY from the context below.
+Rules:
+1. Answer ONLY using the information provided in the CONTEXT.
+2. Do NOT use your own knowledge.
+3. If the answer is not present in the CONTEXT, reply exactly:
+I don't have information about that company.
+4. Keep the answer clear and concise.
 
-If the answer is not found in the context,
-reply exactly:
-
-"I don't have information about that company."
-
-------------------------
+=========================
 CONTEXT
-------------------------
+=========================
 
 {context}
 
-------------------------
+=========================
 QUESTION
-------------------------
+=========================
 
 {question}
 
-------------------------
+=========================
 ANSWER
-------------------------
+=========================
 """
 
     response = ollama.chat(
@@ -46,4 +47,4 @@ ANSWER
         ]
     )
 
-    return response["message"]["content"]
+    return response["message"]["content"].strip()
