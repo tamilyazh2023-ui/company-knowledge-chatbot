@@ -10,6 +10,10 @@ def generate_answer(question, context):
     if not context or str(context).strip() == "":
         return "I don't have information about that in the uploaded company documents."
 
+    # Convert retrieved chunks list into a single string
+    if isinstance(context, list):
+        context = "\n\n".join(context)
+
     prompt = f"""
 You are an AI assistant for a Company Knowledge Chatbot.
 
